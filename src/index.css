@@ -1,13 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oleo+Script+Swash+Caps&family=Roboto:wght@400;500;700;900&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #2d2d2d;
+  color: #f5f5f5;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  padding: 10px;
+  padding-bottom: 85px; /* Footer height */
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.pageHeader {
+  font-size: 60px;
+  text-align: center;
+  vertical-align: middle;
+  font-family: 'Oleo Script Swash Caps';
+}
+
+.verticalCenter {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+.formErrorText {
+  color: red;
+  margin-left: 1rem;
+}
+
+.formErrorContainer {
+  width: 100%;
+}
+
+.signInLink {
+  color: #3be3e0;
+  margin-top: 1rem;
+}
+
+.header {
+  font-size: 50px;
+  font-weight: 500;
+  font-family: 'Oleo Script Swash Caps';
 }

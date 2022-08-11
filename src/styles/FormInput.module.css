@@ -1,0 +1,13 @@
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 384px;
+}
+
+/* @media (min-width: 1100px) {
+  .formGroup {
+    width: 50%;
+  }
+} */

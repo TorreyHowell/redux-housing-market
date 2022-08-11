@@ -1,0 +1,36 @@
+.header {
+  font-size: 50px;
+  font-weight: 500;
+  font-family: 'Oleo Script Swash Caps';
+}
+
+.categoriesLabel {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.categories {
+  display: flex;
+  justify-content: space-between;
+}
+
+.categories a {
+  width: 48%;
+}
+
+.categoryImages {
+  min-height: 115px;
+  height: 8vw;
+  width: 100%;
+  border-radius: 1.5rem;
+  object-fit: cover;
+  margin: 0 auto;
+}
+
+.categoryName {
+  font-weight: 500;
+  text-align: left;
+  margin-left: 10px;
+  margin-top: 5px;
+}

@@ -1,58 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Nav from './components/Nav'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Profile from './pages/Profile'
+import Register from './pages/Register'
+import { useDispatch } from 'react-redux'
+import PrivateRoute from './components/PrivateRoute'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import Explore from './pages/Explore'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { useEffect } from 'react'
+import { getUser } from './features/auth/authSlice'
+import Category from './pages/Category'
 
 function App() {
+  const dispatch = useDispatch()
+  const auth = getAuth()
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      dispatch(getUser(user))
+    })
+  }, [dispatch, auth])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
-  );
+    <>
+      <Router>
+        <div className="container">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/explore" element={<Explore />} />
+            <Route path="/category/:categoryName" element={<Category />} />
+            <Route path="/profile" element={<PrivateRoute />}>
+              <Route path="/profile" element={<Profile />} />
+            </Route>
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </div>
+        <Nav />
+      </Router>
+      <ToastContainer />
+    </>
+  )
 }
 
-export default App;
+export default App
