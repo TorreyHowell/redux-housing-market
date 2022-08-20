@@ -1,0 +1,150 @@
+.header {
+  text-align: center;
+  font-size: 50px;
+  font-weight: 500;
+  font-family: 'Oleo Script Swash Caps';
+}
+
+.form {
+  width: 95%;
+}
+
+.formLabel {
+  font-size: 20px;
+  /* margin-left: 20px;
+  margin-right: 20px;
+  font-weight: 500; */
+  color: #f4f4f4;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #1d1d1d;
+  border-radius: 2rem;
+  margin-top: 3px;
+  margin-bottom: 8px;
+  color: #f4f4f4;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.textArea {
+  display: block;
+  background-color: #1d1d1d;
+  border-radius: 1rem;
+  color: #f4f4f4;
+  width: 100%;
+  height: 200px;
+  padding: 10px;
+  font-size: 1.25rem;
+  font-weight: 500;
+  resize: none;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.smallInput {
+  width: 48%;
+  padding: 10px;
+  background-color: #1d1d1d;
+  border-radius: 2rem;
+  margin-top: 3px;
+  margin-bottom: 8px;
+  color: #f4f4f4;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.formButtons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  margin-top: 3px;
+}
+
+.buttonActive {
+  cursor: pointer;
+  padding: 10px 0;
+  width: 48%;
+  font-size: 2rem;
+  border-radius: 2rem;
+  border: none;
+  background-color: rgb(50, 98, 112);
+  color: #fff;
+}
+
+.submit {
+  cursor: pointer;
+  padding: 10px 0;
+  width: 100%;
+  font-size: 2rem;
+  border-radius: 2rem;
+  border: none;
+  background-color: rgb(50, 98, 112);
+  color: #fff;
+  margin-top: 20px;
+}
+
+.button {
+  cursor: pointer;
+  padding: 10px 0;
+  font-size: 2rem;
+  border-radius: 2rem;
+  width: 48%;
+  border: none;
+  background-color: #9d9d9d;
+  color: #1d1d1d;
+}
+
+.inputRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.labelRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.images {
+  display: block;
+  width: 100%;
+  border: none;
+  outline: none;
+  margin-top: 3px;
+  background-color: #1d1d1d;
+  padding: 0.9rem 3rem 0.9rem 1rem;
+  font-weight: 600;
+  border-radius: 2rem;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.images::file-selector-button {
+  background-color: rgb(50, 98, 112);
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-radius: 1rem;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.errorText {
+  color: red;
+  margin: 0 20px;
+  margin-top: -8px;
+  margin-bottom: 3px;
+}
+
+@media only screen and (min-width: 350px) {
+  .formLabel {
+    margin: 0 15px;
+  }
+}

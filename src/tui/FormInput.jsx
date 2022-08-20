@@ -1,6 +1,15 @@
-function FormInput({ type, value, onChange, id, placeholder, required, name }) {
+function FormInput({
+  type,
+  value,
+  onChange,
+  id,
+  placeholder,
+  required,
+  name,
+  width,
+}) {
   const inputStyle = {
-    width: '100%',
+    width: width || '100%',
     height: '3rem',
     padding: '0 1rem',
     fontSize: '1.25rem',

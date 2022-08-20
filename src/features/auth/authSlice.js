@@ -43,6 +43,7 @@ export const getUser = createAsyncThunk(
   'auth/getUser',
   async (user, thunkAPI) => {
     return {
+      id: user.uid,
       displayName: user.displayName,
       email: user.email,
       photoURL: user.photoURL,
@@ -63,6 +64,29 @@ export const login = createAsyncThunk(
         error.message ||
         error.toString()
       return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
+export const oauth = createAsyncThunk('auth/oauth', async (_, thunkAPI) => {
+  try {
+    return await authService.oauth()
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
+export const updateProfile = createAsyncThunk(
+  'auth/update',
+  async (userData, thunkAPI) => {
+    try {
+      return authService.update(userData)
+    } catch (error) {
+      return thunkAPI.rejectWithValue('Could not update profile')
     }
   }
 )
@@ -128,6 +152,26 @@ export const authSlice = createSlice({
       })
       .addCase(getUser.fulfilled, (state, action) => {
         state.user = action.payload
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.isSuccess = true
+        state.user.name = action.payload.name
+        state.user.email = action.payload.email
+      })
+      .addCase(updateProfile.rejected, (state, action) => {
+        state.isLoading = false
+        state.message = action.payload
+      })
+      .addCase(oauth.fulfilled, (state, action) => {
+        state.isSuccess = true
+        state.user = action.payload
+      })
+      .addCase(oauth.rejected, (state, action) => {
+        state.isLoading = false
+        state.message = action.payload
+      })
+      .addCase(oauth.pending, (state, action) => {
+        state.isLoading = true
       })
   },
 })

@@ -8,6 +8,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import Button from '../tui/Button'
 import styles from '../styles/FormInput.module.css'
 import Horizontal from '../tui/Horizontal'
+import OAuth from '../components/OAuth'
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -102,6 +103,7 @@ function Register() {
               Login instead
             </Link>
           </form>
+          <OAuth />
         </Horizontal>
       </Vertical>
     </main>

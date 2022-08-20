@@ -28,14 +28,14 @@ footer {
 
 .navbarItem {
   cursor: pointer;
-  font-size: 36px;
+  font-size: 40px;
   color: #fff;
 }
 
 .navbarItemActive {
   cursor: pointer;
   color: rgb(82, 183, 214);
-  font-size: 45px;
+  font-size: 40px;
 }
 
 .navbarContainer {

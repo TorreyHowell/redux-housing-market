@@ -13,6 +13,9 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { useEffect } from 'react'
 import { getUser } from './features/auth/authSlice'
 import Category from './pages/Category'
+import Listing from './pages/Listing'
+import CreateListing from './pages/CreateListing'
+import EditListing from './pages/EditListing'
 
 function App() {
   const dispatch = useDispatch()
@@ -32,16 +35,24 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/category/:categoryName" element={<Category />} />
+            <Route
+              path="/category/:categoryName/:listingID"
+              element={<Listing />}
+            />
             <Route path="/profile" element={<PrivateRoute />}>
               <Route path="/profile" element={<Profile />} />
             </Route>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/create-listing" element={<PrivateRoute />}>
+              <Route path="/create-listing" element={<CreateListing />} />
+            </Route>
+            <Route path="/edit-listing/:id" element={<EditListing />} />
           </Routes>
         </div>
         <Nav />
       </Router>
-      <ToastContainer />
+      <ToastContainer theme="dark" />
     </>
   )
 }

@@ -1,0 +1,67 @@
+.leafletContainer {
+  width: 100%;
+  height: 400px;
+
+  overflow-x: hidden;
+  margin-bottom: 3rem;
+}
+
+.swiperContainer {
+  height: 300px;
+}
+
+.swiperSlideDiv {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.swiperSlideText {
+  color: #ffffff;
+  position: absolute;
+  top: 70px;
+  left: 0;
+  font-weight: 600;
+  max-width: 90%;
+  font-size: 1.25rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 0.5rem;
+}
+
+.info {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.description {
+  margin: 10px 0;
+  font-size: 18px;
+
+  overflow-wrap: break-word;
+}
+
+.address1 {
+  margin-top: 5px;
+}
+
+.address1,
+.address2 {
+  font-size: 18px;
+}
+
+.features {
+  margin: 20px 0;
+  display: flex;
+}
+
+.featuresItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 30px;
+}
+
+.featuresItem svg {
+  font-size: 40px;
+}

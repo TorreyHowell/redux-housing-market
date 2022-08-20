@@ -3,8 +3,19 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   updateProfile,
+  updateEmail,
+  reauthenticateWithCredential,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from 'firebase/auth'
-import { setDoc, doc, serverTimestamp } from 'firebase/firestore'
+
+import {
+  setDoc,
+  doc,
+  serverTimestamp,
+  updateDoc,
+  getDoc,
+} from 'firebase/firestore'
 import { db } from '../../firebase.config'
 
 const register = async ({ name, email, password }) => {
@@ -65,6 +76,27 @@ const logout = () => {
   localStorage.clear('user')
 }
 
+const update = async ({ name, email }) => {
+  const auth = getAuth()
+
+  if (auth.currentUser.displayName !== name) {
+    await updateProfile(auth.currentUser, {
+      displayName: name,
+    })
+  }
+
+  const userRef = doc(db, 'users', auth.currentUser.uid)
+
+  await updateDoc(userRef, {
+    name,
+  })
+
+  return {
+    name,
+    email,
+  }
+}
+
 const registerValidation = ({ name, password, password2 }) => {
   const messages = {
     nameMessage: '',
@@ -102,11 +134,38 @@ const registerValidation = ({ name, password, password2 }) => {
   }
 }
 
+const oauth = async () => {
+  const auth = getAuth()
+  const provider = new GoogleAuthProvider()
+  const result = await signInWithPopup(auth, provider)
+  const user = result.user
+
+  const docRef = doc(db, 'users', user.uid)
+  const docSnap = await getDoc(docRef)
+
+  if (!docSnap.exists()) {
+    await setDoc(doc(db, 'users', user.uid), {
+      name: user.displayName,
+      email: user.email,
+      timestamp: serverTimestamp(),
+    })
+  }
+
+  return {
+    id: user.uid,
+    displayName: user.displayName,
+    email: user.email,
+    photoURL: user.photoURL,
+  }
+}
+
 const authService = {
   registerValidation,
   login,
   logout,
   register,
+  update,
+  oauth,
 }
 
 export default authService

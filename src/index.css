@@ -10,6 +10,10 @@ html::-webkit-scrollbar {
   display: none;
 }
 
+textarea::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
@@ -25,10 +29,10 @@ code {
 }
 
 .container {
+  padding: 10px;
   max-width: 600px;
   margin: auto;
-  padding: 10px;
-  padding-bottom: 85px; /* Footer height */
+  padding-bottom: 200px; /* Footer height */
 }
 
 a {
@@ -67,4 +71,57 @@ a {
   font-size: 50px;
   font-weight: 500;
   font-family: 'Oleo Script Swash Caps';
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.loadingSpinnerContainer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 5000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loadingSpinner {
+  width: 64px;
+  height: 64px;
+  border: 8px solid;
+  border-color: rgb(104, 213, 247) transparent rgb(104, 213, 247) transparent;
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .container {
+    padding: 5px;
+    padding-bottom: 100px;
+  }
+}
+
+.modalHeader {
+  color: #f4f4f4 !important;
 }

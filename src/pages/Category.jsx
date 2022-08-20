@@ -5,12 +5,13 @@ import { getListings, reset } from '../features/listing/listingSlice'
 import { useSelector } from 'react-redux'
 import ListingItem from '../components/ListingItem'
 import Center from '../tui/Center'
+import Spinner from '../components/Spinner'
 
 function Category() {
   const categoryName = useParams().categoryName
   const dispatch = useDispatch()
 
-  const { listings } = useSelector((state) => state.listing)
+  const { listings, isLoading } = useSelector((state) => state.listing)
 
   useEffect(() => {
     dispatch(getListings(categoryName))
@@ -19,11 +20,16 @@ function Category() {
       dispatch(reset())
     }
   }, [dispatch, categoryName])
+
+  if (isLoading) return <Spinner />
   return (
     <>
       <header>
         <Center>
-          <p className="header">Places for {categoryName}</p>
+          <p className="header">
+            Places For{' '}
+            {categoryName.charAt(0).toLocaleUpperCase() + categoryName.slice(1)}
+          </p>
         </Center>
       </header>
 

@@ -12,6 +12,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import OAuth from '../components/OAuth'
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -82,6 +83,7 @@ function Login() {
                 Sign-up instead
               </Link>
             </form>
+            <OAuth />
           </Horizontal>
         </Vertical>
       </main>
