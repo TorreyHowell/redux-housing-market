@@ -81,6 +81,7 @@ function ConfirmModel({ modalOpen, closeModalState }) {
               color: '#f4f4f4',
               borderRadius: '2rem',
               border: 'none',
+              cursor: 'pointer',
             }}
             onClick={closeModal}
           >
@@ -95,6 +96,7 @@ function ConfirmModel({ modalOpen, closeModalState }) {
               color: '#f4f4f4',
               borderRadius: '2rem',
               border: 'none',
+              cursor: 'pointer',
             }}
             onClick={submitDelete}
           >
