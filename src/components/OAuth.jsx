@@ -1,8 +1,7 @@
 import googleIcon from '../assets/svg/googleIcon.svg'
 import { useLocation } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { oauth } from '../features/auth/authSlice'
-import { useEffect } from 'react'
 
 function OAuth() {
   const location = useLocation()

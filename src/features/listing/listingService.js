@@ -5,14 +5,12 @@ import {
   where,
   orderBy,
   limit,
-  startAfter,
   getDoc,
   doc,
   serverTimestamp,
   addDoc,
   deleteDoc,
   updateDoc,
-  on,
 } from 'firebase/firestore'
 
 import {

@@ -1,7 +1,7 @@
 import useWindowDimensions from '../hooks/useWindowDimensions'
 
 function Vertical(props) {
-  const { height, width } = useWindowDimensions()
+  const { height } = useWindowDimensions()
   return (
     <div
       style={{
