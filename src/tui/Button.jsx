@@ -19,6 +19,7 @@ function Button(props) {
   }
   return (
     <button
+      className="hover"
       style={{
         ...styles,
         ...sx,

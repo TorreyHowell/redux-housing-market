@@ -81,7 +81,9 @@ function Profile() {
     <>
       <div className={styles.profileHeader}>
         <p>My Profile</p>
-        <button onClick={onLogout}>Logout</button>
+        <button className="hover" onClick={onLogout}>
+          Logout
+        </button>
       </div>
 
       <div className={styles.profileDetailsChange}>
@@ -129,7 +131,7 @@ function Profile() {
         />
       </div>
       <Center>
-        <Link to="/create-listing" className={styles.createButton}>
+        <Link to="/create-listing" className={`${styles.createButton} hover`}>
           Create Listing
         </Link>
       </Center>

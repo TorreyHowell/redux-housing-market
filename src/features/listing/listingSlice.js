@@ -13,6 +13,8 @@ const initialState = {
   formErrors: null,
   editSuccess: false,
   toDeleteID: '',
+  geoCode: null,
+  backGroundLoad: false,
 }
 
 export const getListings = createAsyncThunk(
@@ -43,6 +45,17 @@ export const getListing = createAsyncThunk(
   async (listingID, thunkAPI) => {
     try {
       return listingService.getListing(listingID)
+    } catch (error) {
+      return thunkAPI.rejectWithValue('Could not fetch listing')
+    }
+  }
+)
+
+export const getRecentListings = createAsyncThunk(
+  'listing/getRecentListings',
+  async (_, thunkAPI) => {
+    try {
+      return listingService.getRecentListings()
     } catch (error) {
       return thunkAPI.rejectWithValue('Could not fetch listing')
     }
@@ -116,6 +129,42 @@ export const stageDelete = createAsyncThunk(
   'listing/stageDelete',
   async (listingID, thunkAPI) => {
     return listingID
+  }
+)
+
+export const getListingInRange = createAsyncThunk(
+  'listing/getListingInRange',
+  async (postal, thunkAPI) => {
+    try {
+      return listingService.getListingInRange(postal)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
+export const setGeo = createAsyncThunk(
+  'listing/setGeo',
+  async (geoCode, thunkAPI) => {
+    try {
+      return listingService.getListingInRange(null, geoCode)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+
+      return thunkAPI.rejectWithValue(message)
+    }
   }
 )
 
@@ -211,6 +260,58 @@ export const listingSlice = createSlice({
       })
       .addCase(stageDelete.fulfilled, (state, action) => {
         state.toDeleteID = action.payload
+      })
+      .addCase(getRecentListings.fulfilled, (state, action) => {
+        state.listings = action.payload
+        state.isLoading = false
+      })
+      .addCase(getRecentListings.pending, (state, action) => {
+        state.isLoading = true
+      })
+      .addCase(getRecentListings.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+      .addCase(getListingInRange.fulfilled, (state, action) => {
+        state.listings = action.payload.listings
+        state.geoCode = action.payload.geocode
+        state.isLoading = false
+        state.backGroundLoad = false
+      })
+      .addCase(getListingInRange.pending, (state, action) => {
+        if (state.geoCode) {
+          state.isLoading = false
+          state.backGroundLoad = true
+        } else {
+          state.isLoading = true
+        }
+      })
+      .addCase(getListingInRange.rejected, (state, action) => {
+        state.isLoading = false
+        state.backGroundLoad = false
+        state.isError = true
+        state.message = action.payload
+      })
+      .addCase(setGeo.fulfilled, (state, action) => {
+        state.geoCode = action.payload.geocode
+        state.listings = action.payload.listings
+        state.isLoading = false
+        state.backGroundLoad = false
+      })
+      .addCase(setGeo.pending, (state, action) => {
+        if (state.geoCode) {
+          state.isLoading = false
+          state.backGroundLoad = true
+        } else {
+          state.isLoading = true
+        }
+      })
+      .addCase(setGeo.rejected, (state, action) => {
+        state.isLoading = false
+        state.backGroundLoad = false
+        state.isError = true
+        state.message = action.payload
       })
   },
 })

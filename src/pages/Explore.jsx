@@ -1,8 +1,8 @@
-import Center from '../tui/Center'
 import styles from '../styles/Explore.module.css'
 import rentCategoryImage from '../assets/jpg/rentCategoryImage.jpg'
 import sellCategoryImage from '../assets/jpg/sellCategoryImage.jpg'
 import { Link } from 'react-router-dom'
+import RecentSlider from '../components/RecentSlider'
 
 function Explore() {
   return (
@@ -10,6 +10,8 @@ function Explore() {
       <header>
         <p className={styles.header}>Explore</p>
       </header>
+
+      <RecentSlider />
 
       <p className={styles.categoriesLabel}>Categories</p>
 

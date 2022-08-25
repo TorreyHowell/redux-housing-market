@@ -1,0 +1,93 @@
+.leafletContainer {
+  width: 100%;
+  padding: -300px;
+  overflow-x: hidden;
+  margin-bottom: 3rem;
+  border-radius: 1rem;
+  min-height: 400px;
+}
+
+.header {
+  text-align: center;
+}
+
+.loadingMap {
+  width: 100%;
+  overflow-x: hidden;
+  margin-bottom: 3rem;
+  background-color: #f2efe9;
+  border-radius: 1rem;
+  min-height: 400px;
+}
+
+.form {
+  margin-bottom: 5px;
+  margin-top: 20px;
+}
+
+.input {
+  width: 25%;
+  padding: 5px 10px;
+  border-radius: 1rem;
+  color: #f4f4f4;
+  background-color: #1d1d1d;
+  font-weight: 600;
+  font-size: 18px;
+  border: none;
+}
+
+.button {
+  padding: 6px 12px;
+
+  margin-left: 1%;
+  border-radius: 1rem;
+  background-color: rgb(50, 98, 112);
+  color: #f4f4f4;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.label {
+  display: block;
+  font-weight: 600;
+  margin-left: 10px;
+  margin-bottom: 2px;
+}
+
+.popup {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.price {
+  margin: 0px;
+}
+
+@media only screen and (max-width: 360px) {
+  .input {
+    width: 50%;
+    padding: 5px 5px;
+  }
+
+  .button {
+    margin-left: 1%;
+  }
+
+  .label {
+    display: block;
+    font-size: 13px;
+    margin-left: 3px;
+  }
+
+  .header {
+    font-size: 30px !important;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .input {
+    width: 40%;
+    margin-left: 1%;
+  }
+}

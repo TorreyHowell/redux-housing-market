@@ -3,8 +3,6 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   updateProfile,
-  updateEmail,
-  reauthenticateWithCredential,
   GoogleAuthProvider,
   signInWithPopup,
 } from 'firebase/auth'
@@ -159,6 +157,20 @@ const oauth = async () => {
   }
 }
 
+const getLandlord = async (id) => {
+  const docRef = doc(db, 'users', id)
+
+  const docSnap = await getDoc(docRef)
+
+  if (docSnap.exists()) {
+    const landLord = docSnap.data()
+
+    delete landLord.timestamp
+
+    return landLord
+  }
+}
+
 const authService = {
   registerValidation,
   login,
@@ -166,6 +178,7 @@ const authService = {
   register,
   update,
   oauth,
+  getLandlord,
 }
 
 export default authService

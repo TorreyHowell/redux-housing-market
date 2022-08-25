@@ -31,6 +31,7 @@
 .info {
   font-size: 20px;
   font-weight: 500;
+  margin: 8px 0;
 }
 
 .description {
@@ -64,4 +65,21 @@
 
 .featuresItem svg {
   font-size: 40px;
+}
+
+.contactContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.contact {
+  padding: 20px 50px;
+  background-color: #326270;
+  border-radius: 2rem;
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.contact:hover {
+  background-color: #3a94ad;
 }

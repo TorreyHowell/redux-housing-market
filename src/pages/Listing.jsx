@@ -13,12 +13,16 @@ import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
 import NumberFormat from 'react-number-format'
 import { FaCouch, FaCar } from 'react-icons/fa'
+import { getLandlord } from '../features/auth/authSlice'
+import Spinner from '../components/Spinner'
 
 function Listing() {
   const params = useParams()
   const dispatch = useDispatch()
 
   const { isLoading, listing } = useSelector((state) => state.listing)
+
+  const { landlord } = useSelector((state) => state.auth)
 
   useEffect(() => {
     dispatch(getListing(params.listingID))
@@ -28,11 +32,21 @@ function Listing() {
     }
   }, [dispatch, params.listingID])
 
-  if (isLoading) return <></>
-  if (!listing) return <></>
+  useEffect(() => {
+    if (listing) {
+      dispatch(getLandlord(listing.userRef))
+    }
+  }, [listing, dispatch])
+
+  if (isLoading) return <Spinner />
+  if (!listing) return <Spinner />
   return (
     <>
-      <main>
+      <main
+        style={{
+          paddingBottom: '20px',
+        }}
+      >
         <Swiper
           className={styles.swiperContainer}
           modules={[Navigation, Pagination, Scrollbar, A11y]}
@@ -114,6 +128,15 @@ function Listing() {
             </MapContainer>
           </div>
         </Center>
+
+        <div className={styles.contactContainer}>
+          <a
+            className={styles.contact}
+            href={`mailto:${landlord.email}?Subject=${listing.name}&body=`}
+          >
+            Contact {listing.type === 'sale' ? 'Seller' : 'Landlord'}
+          </a>
+        </div>
       </main>
     </>
   )

@@ -14,6 +14,7 @@ const initialState = {
   },
 
   message: '',
+  landlord: 'torrey@gmail.com',
 }
 
 export const register = createAsyncThunk(
@@ -47,6 +48,23 @@ export const getUser = createAsyncThunk(
       displayName: user.displayName,
       email: user.email,
       photoURL: user.photoURL,
+    }
+  }
+)
+
+export const getLandlord = createAsyncThunk(
+  'auth/getLandlord',
+  async (id, thunkAPI) => {
+    try {
+      return authService.getLandlord(id)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
     }
   }
 )
@@ -172,6 +190,17 @@ export const authSlice = createSlice({
       })
       .addCase(oauth.pending, (state, action) => {
         state.isLoading = true
+      })
+      .addCase(getLandlord.fulfilled, (state, action) => {
+        state.landlord = action.payload
+        state.isLoading = false
+      })
+      .addCase(getLandlord.pending, (state, action) => {
+        state.isLoading = true
+      })
+      .addCase(getLandlord.rejected, (state, action) => {
+        state.isLoading = false
+        state.message = action.payload
       })
   },
 })

@@ -12,6 +12,7 @@ import {
   addDoc,
   deleteDoc,
   updateDoc,
+  on,
 } from 'firebase/firestore'
 
 import {
@@ -59,6 +60,79 @@ const getListings = async (category) => {
   return {
     lastFetched: JSON.stringify(lastVisible),
     listings: listings,
+  }
+}
+
+const getRecentListings = async () => {
+  const listingRef = collection(db, 'listings')
+
+  const q = query(listingRef, orderBy('timestamp', 'desc'), limit(5))
+
+  const querySnap = await getDocs(q)
+
+  const listings = []
+
+  querySnap.forEach((doc) => {
+    const data = doc.data()
+    data.timestamp = data.timestamp.seconds
+
+    return listings.push({
+      id: doc.id,
+      ...data,
+    })
+  })
+
+  return listings
+}
+
+const getListingInRange = async (postal, geoCode) => {
+  const listingRef = collection(db, 'listings')
+
+  let geolocation = {}
+
+  if (geoCode) {
+    geolocation = geoCode
+  } else {
+    geolocation = await getGeolocationByPostal(postal)
+  }
+
+  const { lat, lng } = geolocation
+
+  const northLimit = lat + 10 / 69
+  const southLimit = lat - 10 / 69
+  const eastLimit = lng + 10 / 55
+  const westLimit = lng - 10 / 55
+
+  const q = query(
+    listingRef,
+    where('geolocation.lat', '<=', northLimit),
+    where('geolocation.lat', '>=', southLimit)
+  )
+
+  const querySnap = await getDocs(q)
+
+  const listings = []
+
+  querySnap.forEach((doc) => {
+    const data = doc.data()
+    data.timestamp = data.timestamp.seconds
+
+    // Firebase won't allow multiple where queries on different fields
+    // so i'm filtering lat on server and lng on client until i look into another way
+    if (
+      data.geolocation.lng <= eastLimit &&
+      data.geolocation.lng >= westLimit
+    ) {
+      return listings.push({
+        id: doc.id,
+        ...data,
+      })
+    }
+  })
+
+  return {
+    listings: listings,
+    geocode: geolocation,
   }
 }
 
@@ -166,6 +240,20 @@ const getGeolocation = async ({ addressLine1, city, state }) => {
   return data.results[0].geometry.location
 }
 
+const getGeolocationByPostal = async (postal) => {
+  const response = await fetch(
+    `https://maps.googleapis.com/maps/api/geocode/json?address=${postal}&key=${process.env.REACT_APP_GEOCODE}`
+  )
+
+  const data = await response.json()
+
+  if (data.status === 'ZERO_RESULTS') {
+    throw new Error('Invalid Address')
+  }
+
+  return data.results[0].geometry.location
+}
+
 const storeImage = async (image) => {
   return new Promise((resolve, reject) => {
     const auth = getAuth()
@@ -251,6 +339,8 @@ const listingService = {
   getUserListings,
   deleteListing,
   editListing,
+  getRecentListings,
+  getListingInRange,
 }
 
 export default listingService
