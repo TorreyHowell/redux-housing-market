@@ -11,6 +11,7 @@ import {
   addDoc,
   deleteDoc,
   updateDoc,
+  startAfter,
 } from 'firebase/firestore'
 
 import {
@@ -30,17 +31,16 @@ const getListings = async (category) => {
   const listingRef = collection(db, 'listings')
 
   // create a query
+
   const q = query(
     listingRef,
     where('type', '==', category),
     orderBy('timestamp', 'desc'),
-    limit(10)
+    limit(2)
   )
 
   // Execute query
   const querySnap = await getDocs(q)
-
-  const lastVisible = querySnap.docs[querySnap.docs.length - 1]
 
   const listings = []
 
@@ -55,8 +55,60 @@ const getListings = async (category) => {
     })
   })
 
+  let lastFetched
+  if (querySnap.docs.length === 2) {
+    listings.pop()
+    lastFetched = querySnap.docs[querySnap.docs.length - 2].id
+  }
+
   return {
-    lastFetched: JSON.stringify(lastVisible),
+    lastFetched,
+    listings: listings,
+  }
+}
+
+const fetchMore = async (category, lastFetched) => {
+  // get collection reference
+  const listingRef = collection(db, 'listings')
+
+  const ref = collection(db, 'listings')
+
+  const docSnap = await getDoc(doc(ref, lastFetched))
+
+  // create a query
+
+  const q = query(
+    listingRef,
+    where('type', '==', category),
+    orderBy('timestamp', 'desc'),
+    limit(2),
+    startAfter(docSnap)
+  )
+
+  // Execute query
+  const querySnap = await getDocs(q)
+
+  const listings = []
+
+  querySnap.forEach((docs) => {
+    const data = docs.data()
+
+    data.timestamp = data.timestamp.seconds
+
+    return listings.push({
+      id: docs.id,
+      ...data,
+    })
+  })
+
+  let lastListing
+  if (querySnap.docs.length === 2) {
+    listings.pop()
+    lastListing = querySnap.docs[querySnap.docs.length - 2].id
+  }
+
+  return {
+    lastFetched: lastListing,
     listings: listings,
   }
 }
@@ -339,6 +391,7 @@ const listingService = {
   editListing,
   getRecentListings,
   getListingInRange,
+  fetchMore,
 }
 
 export default listingService

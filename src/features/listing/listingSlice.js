@@ -20,9 +20,8 @@ const initialState = {
 export const getListings = createAsyncThunk(
   'listing/getListings',
   async (category, thunkAPI) => {
-    const lastFetched = thunkAPI.getState().listing.lastFetched
     try {
-      return listingService.getListings(category, lastFetched)
+      return listingService.getListings(category)
     } catch (error) {
       return thunkAPI.rejectWithValue('Could not fetch listings')
     }
@@ -34,6 +33,18 @@ export const getUserListings = createAsyncThunk(
   async (category, thunkAPI) => {
     try {
       return listingService.getUserListings()
+    } catch (error) {
+      return thunkAPI.rejectWithValue('Could not fetch listings')
+    }
+  }
+)
+
+export const fetchMore = createAsyncThunk(
+  'listing/fetchMore',
+  async (category, thunkAPI) => {
+    try {
+      const lastFetched = thunkAPI.getState().listing.lastFetched
+      return listingService.fetchMore(category, lastFetched)
     } catch (error) {
       return thunkAPI.rejectWithValue('Could not fetch listings')
     }
@@ -312,6 +323,19 @@ export const listingSlice = createSlice({
         state.backGroundLoad = false
         state.isError = true
         state.message = action.payload
+      })
+      .addCase(fetchMore.fulfilled, (state, action) => {
+        state.isSuccess = true
+        state.isLoading = false
+        action.payload.listings.forEach((listing) => {
+          return state.listings.push(listing)
+        })
+
+        state.lastFetched = action.payload.lastFetched
+      })
+      .addCase(fetchMore.pending, (state, action) => {})
+      .addCase(fetchMore.rejected, (state, action) => {
+        state.isLoading = false
       })
   },
 })
