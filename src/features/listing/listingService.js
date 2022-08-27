@@ -36,7 +36,7 @@ const getListings = async (category) => {
     listingRef,
     where('type', '==', category),
     orderBy('timestamp', 'desc'),
-    limit(2)
+    limit(11)
   )
 
   // Execute query
@@ -56,7 +56,7 @@ const getListings = async (category) => {
   })
 
   let lastFetched
-  if (querySnap.docs.length === 2) {
+  if (querySnap.docs.length === 11) {
     listings.pop()
     lastFetched = querySnap.docs[querySnap.docs.length - 2].id
   }
@@ -81,7 +81,7 @@ const fetchMore = async (category, lastFetched) => {
     listingRef,
     where('type', '==', category),
     orderBy('timestamp', 'desc'),
-    limit(2),
+    limit(11),
     startAfter(docSnap)
   )
 
@@ -102,7 +102,7 @@ const fetchMore = async (category, lastFetched) => {
   })
 
   let lastListing
-  if (querySnap.docs.length === 2) {
+  if (querySnap.docs.length === 11) {
     listings.pop()
     lastListing = querySnap.docs[querySnap.docs.length - 2].id
   }
